@@ -11,7 +11,8 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "types": ["vite/client", "node"]
+    "types": ["vite/client", "node"],
+    "noEmit": false
   },
   "include": ["src/**/*", "api/**/*"],
   "exclude": ["node_modules", "dist", "prisma"]
