@@ -1,0 +1,161 @@
+// prisma/schema.prisma — KidPark + NeonDB
+// ARQUIVO: kidpark-api/prisma/schema.prisma
+//
+// ESTRATÉGIA PARA MIGRAR SEM PERDER DADOS:
+// - slug: String? (nullable) → db:push aceita sem precisar de default
+// - email: String? sem @unique por enquanto → evita conflito com linhas existentes
+// - Após o db:seed popular os slugs, pode tornar slug obrigatório rodando db:push novamente
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")           // pooled — runtime
+  directUrl = env("DATABASE_URL_UNPOOLED")  // sem pooler — migrations/seed
+}
+
+// ── CARGOS ────────────────────────────────────────────────────
+model Role {
+  id          String  @id @default(uuid())
+  name        String  @unique
+  description String?
+  users       User[]
+
+  @@map("roles")
+}
+
+// ── USUÁRIOS ──────────────────────────────────────────────────
+// email e phone são opcionais (String?) — o banco existente não tem essas colunas
+// O db:push vai adicioná-las como nullable sem quebrar nada
+model User {
+  id           String   @id @default(uuid())
+  username     String   @unique
+  name         String
+  email        String?  // ← nullable — sem @unique agora para evitar conflito
+  phone        String?  // ← nullable — nova coluna
+  avatarUrl    String?  @map("avatar_url") // ← nullable — nova coluna
+  passwordHash String   @map("password_hash")
+  roleId       String   @map("role_id")
+  role         Role     @relation(fields: [roleId], references: [id])
+  isActive     Boolean  @default(true) @map("is_active")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  sessions  ChildSession[]
+  auditLogs AuditLog[]
+
+  @@map("users")
+}
+
+// ── BRINQUEDOS ────────────────────────────────────────────────
+// slug: String? (nullable) → db:push consegue adicionar a coluna
+// nas 5 linhas existentes sem valor. O seed popula depois.
+model Toy {
+  id              String    @id @default(uuid())
+  name            String
+  slug            String?   // ← nullable! Prisma aceita sem --force-reset
+  emoji           String?   // ← nullable também
+  type            String    @default("outro")
+  maxCapacity     Int       @default(1)    @map("max_capacity")
+  defaultMinutes  Int       @default(15)   @map("default_minutes")
+  pricePerSession Int       @default(1600) @map("price_per_session")
+  isActive        Boolean   @default(true) @map("is_active")
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  sessions  ChildSession[]
+  timeSlots TimeSlot[]
+
+  @@map("toys")
+}
+
+// ── HORÁRIOS ──────────────────────────────────────────────────
+model TimeSlot {
+  id        String   @id @default(uuid())
+  toyId     String   @map("toy_id")
+  toy       Toy      @relation(fields: [toyId], references: [id])
+  startTime String   @map("start_time")
+  isBooked  Boolean  @default(false) @map("is_booked")
+  date      DateTime @default(now())
+
+  @@map("time_slots")
+}
+
+// ── SESSÕES ───────────────────────────────────────────────────
+model ChildSession {
+  id                   String        @id @default(uuid())
+  childName            String        @map("child_name")
+  parentName           String        @map("parent_name")
+  phone                String
+  toyId                String        @map("toy_id")
+  toy                  Toy           @relation(fields: [toyId], references: [id])
+  userId               String        @map("user_id")
+  user                 User          @relation(fields: [userId], references: [id])
+  scheduledTime        String?       @map("scheduled_time")
+  startedAt            DateTime?     @map("started_at")
+  endedAt              DateTime?     @map("ended_at")
+  durationMinutes      Int           @default(15)   @map("duration_minutes")
+  extraMinutes         Int           @default(0)    @map("extra_minutes")
+  timeRemainingSeconds Int           @default(900)  @map("time_remaining_seconds")
+  isPaused             Boolean       @default(false) @map("is_paused")
+  pausedAt             DateTime?     @map("paused_at")
+  status               SessionStatus @default(SCHEDULED)
+  amountCents          Int           @default(1600) @map("amount_cents")
+  paymentStatus        PaymentStatus @default(PENDING) @map("payment_status")
+  paidAt               DateTime?     @map("paid_at")
+  notes                String?
+  createdAt            DateTime      @default(now()) @map("created_at")
+  updatedAt            DateTime      @updatedAt @map("updated_at")
+
+  timeExtensions TimeExtension[]
+  auditLogs      AuditLog[]
+
+  @@index([status])
+  @@index([createdAt])
+  @@map("child_sessions")
+}
+
+// ── EXTENSÕES DE TEMPO ────────────────────────────────────────
+model TimeExtension {
+  id          String       @id @default(uuid())
+  sessionId   String       @map("session_id")
+  session     ChildSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  minutes     Int
+  amountCents Int          @default(0) @map("amount_cents")
+  createdAt   DateTime     @default(now()) @map("created_at")
+
+  @@map("time_extensions")
+}
+
+// ── LOGS ──────────────────────────────────────────────────────
+model AuditLog {
+  id        String        @id @default(uuid())
+  userId    String?       @map("user_id")
+  user      User?         @relation(fields: [userId], references: [id])
+  sessionId String?       @map("session_id")
+  session   ChildSession? @relation(fields: [sessionId], references: [id])
+  action    String
+  table     String?
+  recordId  String?       @map("record_id")
+  details   Json?
+  ip        String?
+  createdAt DateTime      @default(now()) @map("created_at")
+
+  @@map("audit_logs")
+}
+
+// ── ENUMS ─────────────────────────────────────────────────────
+enum SessionStatus {
+  SCHEDULED
+  ACTIVE
+  PAUSED
+  ENDED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  REFUNDED
+}

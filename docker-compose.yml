@@ -1,0 +1,10 @@
+# Com NeonDB não precisamos do container do Postgres.
+# Mantemos apenas o Adminer para visualizar o banco online.
+version: '3.8'
+
+services:
+  adminer:
+    image: adminer
+    ports:
+      - '8080:8080'
+    restart: unless-stopped

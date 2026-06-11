@@ -1,0 +1,19 @@
+# Dependências
+node_modules/
+dist/
+
+# Variáveis de ambiente — NUNCA no GitHub
+.env
+.env.local
+.env.production
+
+# Prisma — gerado automaticamente
+prisma/migrations/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/settings.json
+*.log
