@@ -20,7 +20,7 @@ if (!API_URL && import.meta.env.PROD) {
   )
 }
 
-const BASE = API_URL ?? 'http://localhost:3333/api'
+const BASE = API_URL ?? 'https://kidpark-api.vercel.app/api'
 
 // Log em desenvolvimento para confirmar qual URL está sendo usada
 if (import.meta.env.DEV) {
