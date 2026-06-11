@@ -3,16 +3,17 @@
   "version": "1.0.0",
   "description": "KidPark — API REST com Express + Prisma + NeonDB",
   "scripts": {
-    "dev":         "tsx watch src/server.ts",
-    "build":       "prisma generate && tsc",
-    "start":       "node dist/server.js",
+    "dev": "tsx watch src/server.ts",
+    "build": "prisma generate && tsc",
+    "start": "node dist/server.js",
     "postinstall": "prisma generate",
+
     "db:generate": "prisma generate",
-    "db:push":     "prisma db push",
-    "db:migrate":  "prisma migrate dev",
-    "db:seed":     "prisma db seed",
-    "db:studio":   "prisma studio",
-    "db:reset":    "prisma migrate reset --force && prisma db seed"
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "prisma db seed",
+    "db:studio": "prisma studio",
+    "db:reset": "prisma migrate reset --force && prisma db seed"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
