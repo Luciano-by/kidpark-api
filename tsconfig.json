@@ -29,6 +29,24 @@
 // },
 //   "include": ["src/**/*", "prisma/**/*"], 
 //   "exclude": ["node_modules", "dist"] }
+// {
+//   "compilerOptions": {
+//     "target": "ES2022",
+//     "module": "CommonJS",
+//     "moduleResolution": "node",
+//     "outDir": "./dist",
+//     "rootDir": "./src",
+
+//     "strict": true,
+//     "noImplicitAny": false,
+
+//     "esModuleInterop": true,
+//     "skipLibCheck": true
+//   }
+// }
+
+
+
 {
   "compilerOptions": {
     "target": "ES2022",
@@ -36,11 +54,11 @@
     "moduleResolution": "node",
     "outDir": "./dist",
     "rootDir": "./src",
-
     "strict": true,
     "noImplicitAny": false,
-
     "esModuleInterop": true,
     "skipLibCheck": true
-  }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "prisma"]
 }

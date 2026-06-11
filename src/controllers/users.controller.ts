@@ -22,7 +22,14 @@ export async function getAll(_req: Request, res: Response) {
     select:  SELECT,
     orderBy: { name: 'asc' },
   })
-  res.json({ ok: true, data: users.map((u) => ({ ...u, role: u.role.name })) })
+  // res.json({ ok: true, data: users.map((u) => ({ ...u, role: u.role.name })) })
+  res.json({
+  ok: true,
+  data: users.map((u: (typeof users)[number]) => ({
+    ...u,
+    role: u.role.name,
+  })),
+})
 }
 
 // ── GET /api/users/:id ────────────────────────────────────────

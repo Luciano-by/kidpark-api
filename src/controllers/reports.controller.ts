@@ -24,8 +24,11 @@ export async function daily(_req: Request, res: Response) {
   //   .reduce((acc, s) => acc + s.amountCents, 0) / 100
   const totalArrecadado =
   sessions
-    .filter((s) => s.paymentStatus === 'PAID')
-    .reduce((acc: number, s) => acc + s.amountCents, 0) / 100
+    .filter((s: (typeof sessions)[number]) => s.paymentStatus === 'PAID')
+.reduce(
+  (acc: number, s: (typeof sessions)[number]) => acc + s.amountCents,
+  0
+)
 
   const toyMap: Record<string,{ nome: string; emoji: string; total: number }> = {}
   for (const s of sessions) {
@@ -45,7 +48,10 @@ export async function daily(_req: Request, res: Response) {
   //   acc[s.status] = (acc[s.status] ?? 0) + 1; return acc
   // }, {})
   const porStatus = sessions.reduce(
-  (acc: Record<string, number>, s) => {
+  (
+    acc: Record<string, number>,
+    s: (typeof sessions)[number]
+  ) => {
     acc[s.status] = (acc[s.status] ?? 0) + 1
     return acc
   },
@@ -101,8 +107,11 @@ export async function monthly(req: Request, res: Response) {
   //   .reduce((acc,s) => acc + s.amountCents, 0) / 100
   const totalArrecadado =
   sessions
-    .filter((s) => s.paymentStatus === 'PAID')
-    .reduce((acc: number, s) => acc + s.amountCents, 0) / 100
+.filter((s: (typeof sessions)[number]) => s.paymentStatus === 'PAID')
+.reduce(
+  (acc: number, s: (typeof sessions)[number]) => acc + s.amountCents,
+  0
+)
 
   res.json({ ok: true, data: {
     periodo:         { inicio: start.toISOString().slice(0,10), fim: new Date(end.getTime()-1).toISOString().slice(0,10) },
