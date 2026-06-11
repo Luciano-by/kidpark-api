@@ -1,64 +1,17 @@
-// {
-//   "compilerOptions": {
-//     "target": "ES2022",
-//     "module": "CommonJS",
-//     "moduleResolution": "Node",
-//     "outDir": "./dist",
-//     "rootDir": "./src",
-//     "strict": true,
-//     "esModuleInterop": true,
-//     "allowSyntheticDefaultImports": true,
-//     "skipLibCheck": true,
-//     "forceConsistentCasingInFileNames": true,
-//     "resolveJsonModule": true
-//   },
-//   "include": ["src/**/*", "prisma/**/*"],
-//   "exclude": ["node_modules", "dist"]
-// }
-
-
-
-// { 
-//   "compilerOptions": { 
-//     "target": "ES2022", 
-//     "module": "CommonJS", 
-//     "moduleResolution": "node",
-//     "outDir": "./dist", 
-//     "rootDir": "./src", "strict": true, 
-//     "esModuleInterop": true, "skipLibCheck": true 
-// },
-//   "include": ["src/**/*", "prisma/**/*"], 
-//   "exclude": ["node_modules", "dist"] }
-// {
-//   "compilerOptions": {
-//     "target": "ES2022",
-//     "module": "CommonJS",
-//     "moduleResolution": "node",
-//     "outDir": "./dist",
-//     "rootDir": "./src",
-
-//     "strict": true,
-//     "noImplicitAny": false,
-
-//     "esModuleInterop": true,
-//     "skipLibCheck": true
-//   }
-// }
-
-
-
 {
   "compilerOptions": {
     "target": "ES2022",
     "module": "CommonJS",
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": "./",
     "strict": true,
-    "noImplicitAny": false,
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "api/**/*"],
   "exclude": ["node_modules", "dist", "prisma"]
 }
