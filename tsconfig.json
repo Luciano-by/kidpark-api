@@ -15,14 +15,32 @@
 //   "include": ["src/**/*", "prisma/**/*"],
 //   "exclude": ["node_modules", "dist"]
 // }
-{ 
-  "compilerOptions": { 
-    "target": "ES2022", 
-    "module": "CommonJS", 
+
+
+
+// { 
+//   "compilerOptions": { 
+//     "target": "ES2022", 
+//     "module": "CommonJS", 
+//     "moduleResolution": "node",
+//     "outDir": "./dist", 
+//     "rootDir": "./src", "strict": true, 
+//     "esModuleInterop": true, "skipLibCheck": true 
+// },
+//   "include": ["src/**/*", "prisma/**/*"], 
+//   "exclude": ["node_modules", "dist"] }
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "CommonJS",
     "moduleResolution": "node",
-    "outDir": "./dist", 
-    "rootDir": "./src", "strict": true, 
-    "esModuleInterop": true, "skipLibCheck": true 
-},
-  "include": ["src/**/*", "prisma/**/*"], 
-  "exclude": ["node_modules", "dist"] }
+    "outDir": "./dist",
+    "rootDir": "./src",
+
+    "strict": true,
+    "noImplicitAny": false,
+
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  }
+}
