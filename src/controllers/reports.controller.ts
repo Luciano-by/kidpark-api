@@ -19,9 +19,13 @@ export async function daily(_req: Request, res: Response) {
     include: { toy: true, user: { select: { id: true, name: true } } },
   })
 
-  const totalArrecadado = sessions
-    .filter(s => s.paymentStatus === 'PAID')
-    .reduce((acc, s) => acc + s.amountCents, 0) / 100
+  // const totalArrecadado = sessions
+  //   .filter(s => s.paymentStatus === 'PAID')
+  //   .reduce((acc, s) => acc + s.amountCents, 0) / 100
+  const totalArrecadado =
+  sessions
+    .filter((s) => s.paymentStatus === 'PAID')
+    .reduce((acc: number, s) => acc + s.amountCents, 0) / 100
 
   const toyMap: Record<string,{ nome: string; emoji: string; total: number }> = {}
   for (const s of sessions) {
@@ -37,9 +41,16 @@ export async function daily(_req: Request, res: Response) {
     attMap[k].total++
   }
 
-  const porStatus = sessions.reduce<Record<string,number>>((acc,s) => {
-    acc[s.status] = (acc[s.status] ?? 0) + 1; return acc
-  }, {})
+  // const porStatus = sessions.reduce<Record<string,number>>((acc,s) => {
+  //   acc[s.status] = (acc[s.status] ?? 0) + 1; return acc
+  // }, {})
+  const porStatus = sessions.reduce(
+  (acc: Record<string, number>, s) => {
+    acc[s.status] = (acc[s.status] ?? 0) + 1
+    return acc
+  },
+  {} as Record<string, number>
+)
 
   res.json({ ok: true, data: {
     totalTickets:      sessions.length,
@@ -85,9 +96,13 @@ export async function monthly(req: Request, res: Response) {
     attMap[k].total++
   }
 
-  const totalArrecadado = sessions
-    .filter(s => s.paymentStatus === 'PAID')
-    .reduce((acc,s) => acc + s.amountCents, 0) / 100
+  // const totalArrecadado = sessions
+  //   .filter(s => s.paymentStatus === 'PAID')
+  //   .reduce((acc,s) => acc + s.amountCents, 0) / 100
+  const totalArrecadado =
+  sessions
+    .filter((s) => s.paymentStatus === 'PAID')
+    .reduce((acc: number, s) => acc + s.amountCents, 0) / 100
 
   res.json({ ok: true, data: {
     periodo:         { inicio: start.toISOString().slice(0,10), fim: new Date(end.getTime()-1).toISOString().slice(0,10) },
