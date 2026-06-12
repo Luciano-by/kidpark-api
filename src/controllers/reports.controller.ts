@@ -21,7 +21,7 @@
 
 //   // const totalArrecadado = sessions
 //   //   .filter(s => s.paymentStatus === 'PAID')
-//   //   .reduce((acc, s) => acc + s.amountCents, 0) / 100
+//   //   .reduce((acc, s) => acc + s.amountCents, 0)
 //   const totalArrecadado =
 //   sessions
 //     .filter((s: (typeof sessions)[number]) => s.paymentStatus === 'PAID')
@@ -85,7 +85,7 @@
 //     const dia = s.createdAt.toISOString().slice(0,10)
 //     if (!dayMap[dia]) dayMap[dia] = { tickets: 0, arrecadado: 0 }
 //     dayMap[dia].tickets++
-//     if (s.paymentStatus === 'PAID') dayMap[dia].arrecadado += s.amountCents / 100
+//     if (s.paymentStatus === 'PAID') dayMap[dia].arrecadado += s.amountCents
 //   }
 
 //   const toyMap: Record<string,{ nome: string; emoji: string; total: number }> = {}
@@ -104,7 +104,7 @@
 
 //   // const totalArrecadado = sessions
 //   //   .filter(s => s.paymentStatus === 'PAID')
-//   //   .reduce((acc,s) => acc + s.amountCents, 0) / 100
+//   //   .reduce((acc,s) => acc + s.amountCents, 0)
 //   const totalArrecadado =
 //   sessions
 // .filter((s: (typeof sessions)[number]) => s.paymentStatus === 'PAID')
@@ -152,7 +152,7 @@ export async function daily(_req: Request, res: Response) {
 
   const totalArrecadado = sessions
     .filter((s: SessionWithRelations) => s.paymentStatus === 'PAID')
-    .reduce((acc: number, s: SessionWithRelations) => acc + s.amountCents, 0) / 100
+    .reduce((acc: number, s: SessionWithRelations) => acc + s.amountCents, 0)
 
   const toyMap: Record<string, { nome: string; emoji: string; total: number }> = {}
   for (const s of sessions) {
@@ -203,7 +203,7 @@ export async function monthly(req: Request, res: Response) {
     const dia = s.createdAt.toISOString().slice(0, 10)
     if (!dayMap[dia]) dayMap[dia] = { tickets: 0, arrecadado: 0 }
     dayMap[dia].tickets++
-    if (s.paymentStatus === 'PAID') dayMap[dia].arrecadado += s.amountCents / 100
+    if (s.paymentStatus === 'PAID') dayMap[dia].arrecadado += s.amountCents
   }
 
   const toyMap: Record<string, { nome: string; emoji: string; total: number }> = {}
@@ -222,7 +222,7 @@ export async function monthly(req: Request, res: Response) {
 
   const totalArrecadado = sessions
     .filter((s: SessionWithRelations) => s.paymentStatus === 'PAID')
-    .reduce((acc: number, s: SessionWithRelations) => acc + s.amountCents, 0) / 100
+    .reduce((acc: number, s: SessionWithRelations) => acc + s.amountCents, 0)
 
   res.json({
     ok: true,

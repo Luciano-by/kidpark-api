@@ -65,11 +65,11 @@ async function main() {
   if (count === 0) {
     await prisma.toy.createMany({
       data: [
-        { name: 'Cama Elástica',       type: 'pula-pula',    maxCapacity: 2, defaultMinutes: 15, pricePerSession: 1600 },
-        { name: 'Piscina de Bolinhas', type: 'piscina',      maxCapacity: 4, defaultMinutes: 15, pricePerSession: 1600 },
-        { name: 'Tobogã',              type: 'escorregador',  maxCapacity: 2, defaultMinutes: 15, pricePerSession: 1600 },
-        { name: 'Gira-Gira',           type: 'giratório',    maxCapacity: 3, defaultMinutes: 15, pricePerSession: 1200 },
-        { name: 'Gangorra',            type: 'balanço',      maxCapacity: 2, defaultMinutes: 15, pricePerSession: 1000 },
+        { name: 'Cama Elástica',       type: 'pula-pula',    maxCapacity: 2, defaultMinutes: 15, pricePerSession: 16 },
+        { name: 'Piscina de Bolinhas', type: 'piscina',      maxCapacity: 4, defaultMinutes: 15, pricePerSession: 16 },
+        { name: 'Tobogã',              type: 'escorregador',  maxCapacity: 2, defaultMinutes: 15, pricePerSession: 16 },
+        { name: 'Gira-Gira',           type: 'giratório',    maxCapacity: 3, defaultMinutes: 15, pricePerSession: 12 },
+        { name: 'Gangorra',            type: 'balanço',      maxCapacity: 2, defaultMinutes: 15, pricePerSession: 10 },
       ],
     })
     console.log('✅ Brinquedos criados')

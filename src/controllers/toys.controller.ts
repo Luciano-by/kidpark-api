@@ -88,7 +88,7 @@ export async function create(req: Request, res: Response) {
     type            = 'outro',
     maxCapacity     = 1,
     defaultMinutes  = 15,
-    pricePerSession = 1600,
+    pricePerSession = 16,
   } = req.body as {
     name:             string
     slug?:            string
